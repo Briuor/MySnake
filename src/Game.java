@@ -9,22 +9,15 @@ import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author briuo
- */
 public class Game extends JPanel implements ActionListener{
     
     public static final int SCREEN_WIDTH = 640;
     public static final int SCREEN_HEIGHT = 480;
     private static final int DELAY = 100;
+    
     private boolean pause;
+    private int score;
+    
     private Timer t;
     private KeyListener keyListener;
     private Snake snake;
@@ -48,46 +41,52 @@ public class Game extends JPanel implements ActionListener{
         setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
-    //Starts the Thread that perform the actionPerformed method each 5 ns
+    //Starts the Thread that perform the actionPerformed method each DEALY(5 ns)
     public void start(){
         pause = false;
+        score = 0;
         t = new Timer(DELAY, this);
         t.start();
     }
     
-    //Draw everything
+    //Draw entities and score
+    @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        g.drawString("Score: " + score, 480, 20);
         food.draw(g);
-        snake.draw(g); // Draw snake
+        snake.draw(g); 
     }
     
+    //check collision with the wall and snake body
     public boolean checkColision(){
-        if(snake.checkColisionWall(SCREEN_WIDTH, SCREEN_HEIGHT))
-            return true;
-        else if(snake.checkColisionBody())
-            return true;
-        return false;
+        return snake.checkColisionWall(SCREEN_WIDTH, SCREEN_HEIGHT) || snake.checkColisionBody();
     }
     
-    //This method represents game loop
+    //This method represents the game loop
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if(snake.verifyEat(food))
+        
+        if(snake.verifyEat(food)) {
             food.generate(SCREEN_WIDTH, SCREEN_HEIGHT);
+            score += 10;
+        }
+        
         snake.move();
+        
         if(checkColision() || pause)
             t.stop();
+        
         repaint();
     }
     
+    //initialize the keyListener 
     public void createKeyListener(){
         
         keyListener = new KeyListener(){
             @Override
-            public void keyTyped(KeyEvent e) {
-            }
-
+            public void keyTyped(KeyEvent e) {  }
+            
             @Override
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
@@ -113,14 +112,8 @@ public class Game extends JPanel implements ActionListener{
                         break;
                 }
             }
-
             @Override
-            public void keyReleased(KeyEvent e) {
-            }
-            
+            public void keyReleased(KeyEvent e) { }
         };
-        
     }
-
-    
 }

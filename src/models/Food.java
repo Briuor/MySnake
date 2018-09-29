@@ -8,7 +8,7 @@ import java.awt.Graphics;
 public class Food {
     private int x;
     private int y;
-    private static final int size = 20;
+    private static final int SIZE = 20;
     
     public Food(int x, int y){
         this.x = 40;
@@ -17,24 +17,20 @@ public class Food {
     
     public void draw(Graphics g){
         g.setColor(Color.red);
-        g.fillRect(x, y, size, size);
+        g.fillRect(x, y, SIZE, SIZE);
     }
     
     public void generate(int sw, int sh){
-        sw -= size;
-        sh -= size;
-        this.x = (int)((Math.random() * (sw/size))) * size - size;
-        this.y = (int)((Math.random() * (sh/size))) * size - size;
-        if(this.x < 0) this.x += size;
-        else if(this.x < 0 ) this.x += size;
-        else if(this.y < 0 ) this.y += size;
+        sw -= SIZE;
+        sh -= SIZE;
+        this.x = (int)((Math.random() * (sw/SIZE))) * SIZE - SIZE;
+        this.y = (int)((Math.random() * (sh/SIZE))) * SIZE - SIZE;
+        if(this.x < 0) this.x += SIZE;
+        else if(this.x < 0 ) this.x += SIZE;
+        else if(this.y < 0 ) this.y += SIZE;
         System.out.println("X: " + this.x + " Y: " +this.y);
     }
-    //(((1 * (480/20))*20) - 20) = ((24 * 20))-20= 480 - 20 = 460; 
-    //(((1 * (640/20))*20) - 20) = ((24 * 20))-20= 640 - 20 = 660; 
-    //(((0 * (480/20))*20) - 20) = ((0 * 20))-20= 480 - 20 = 460; 
-    //(((0 * (640/20))*20) - 20) = ((0 * 20))-20= - 20 = -20 + 20; 
-        
+    
     public int getX() {
         return x;
     }
@@ -52,7 +48,7 @@ public class Food {
     }
     
     public static int getSize() {
-        return size;
+        return SIZE;
     }
 
 }
